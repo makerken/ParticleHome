@@ -3,10 +3,15 @@ Welcome to ParticleHome's documentation!
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Contents:
 
    overview
+   communication
+   particlejs
+   sheets
+   vue
+   bootstrap
 
 
 Indices and tables

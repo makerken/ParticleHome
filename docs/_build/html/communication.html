@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Particle Home &mdash; ParticleHome 0.0.1 documentation</title>
+  <title>Communication &mdash; ParticleHome 0.0.1 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Communication" href="communication.html" />
-    <link rel="prev" title="Welcome to ParticleHome’s documentation!" href="index.html" /> 
+    <link rel="next" title="Particle JS API" href="particlejs.html" />
+    <link rel="prev" title="Particle Home" href="overview.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,8 +82,14 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Particle Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="communication.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Particle Home</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Communication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Particle.variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Particle.publish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Particle.function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Particle.subscribe</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="particlejs.html">Particle JS API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sheets.html">Google Sheets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vue.html">Vue</a></li>
@@ -133,13 +139,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Particle Home</li>
+      <li>Communication</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/overview.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/communication.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -152,13 +158,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="particle-home">
-<h1>Particle Home<a class="headerlink" href="#particle-home" title="Permalink to this headline">¶</a></h1>
-<p>A web interface for getting and sending data to <a class="reference external" href="https://store.particle.io">Particle</a> devices. Focusing on simplicity, I am referencing pertinent information.</p>
-<p><a class="reference external" href="https://getbootstrap.com">Bootstrap</a> for styling</p>
-<p><a class="reference external" href="https://vuejs.org">Vue</a> for updating data without reloading</p>
-<p><a class="reference external" href="https://docs.particle.io/reference/SDKs/javascript/">Particle JS API</a> for communication to your devices</p>
-<p>Google sheets for data storage</p>
+  <div class="section" id="communication">
+<h1>Communication<a class="headerlink" href="#communication" title="Permalink to this headline">¶</a></h1>
+<p>The Particle cloud is great, but be repectful with API requests, getting the temperature every second from 10 devices is currently possible, but requesting the temperature every 6 minutes will give you more than enough detail for most everything.</p>
+<div class="section" id="id1">
+<h2><a class="reference external" href="https://docs.particle.io/reference/device-os/firmware/argon/#particle-variable-">Particle.variable</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Data that changes infrequently: temperature, humidity, air quality.</p>
+<p>When loading the webpage you want everything, all data from every device. A <a class="reference external" href="https://www.json.org/json-en.html">JSON</a> (JavaScript Object Notation) string can contain all device data limited to containing 622 bytes. “There is an API rate limit of approximately 10 calls per second to api.particle.io from each public IP address.” <a class="reference external" href="https://docs.particle.io/reference/device-cloud/api/#api-rate-limits">1</a></p>
+<p>TODO: example of a string converted to JSON</p>
+</div>
+<div class="section" id="id3">
+<h2><a class="reference external" href="https://docs.particle.io/reference/device-os/firmware/argon/#particle-publish-">Particle.publish</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Events that you want to be alerted of: motion.</p>
+<p>When sensing motion you want to be notified as soon as possible. “Currently, a device can publish at rate of about 1 event/sec, with bursts of up to 4 allowed in 1 second. Back to back burst of 4 messages will take 4 seconds to recover.” <a class="reference external" href="https://docs.particle.io/reference/device-os/firmware/argon/#particle-publish-">2</a> If this is overused it is no longer an alert.</p>
+</div>
+<div class="section" id="id5">
+<h2><a class="reference external" href="https://docs.particle.io/reference/device-os/firmware/argon/#particle-function-">Particle.function</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>Controlling a Particle device by sending a command: light on/off/color, buzzer.</p>
+</div>
+<div class="section" id="id6">
+<h2><a class="reference external" href="https://docs.particle.io/reference/device-os/firmware/argon/#particle-subscribe-">Particle.subscribe</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>Device to device communication: device publishes motion -&gt; another device turns on a light.</p>
+</div>
 </div>
 
 
@@ -169,10 +190,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="communication.html" class="btn btn-neutral float-right" title="Communication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="particlejs.html" class="btn btn-neutral float-right" title="Particle JS API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to ParticleHome’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="overview.html" class="btn btn-neutral float-left" title="Particle Home" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
