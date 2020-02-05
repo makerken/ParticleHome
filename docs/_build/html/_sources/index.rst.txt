@@ -11,7 +11,7 @@ Welcome to ParticleHome's documentation!
    bootstrapvue
    particlejs
    sheets
-   software
+   devicesoftware
 
 
 .. Indices and tables
