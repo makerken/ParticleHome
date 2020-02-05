@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Vue" href="vue.html" />
+    <link rel="next" title="Device code" href="software.html" />
     <link rel="prev" title="Particle JS API" href="particlejs.html" /> 
 </head>
 
@@ -84,10 +84,11 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Particle Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="communication.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bootstrap.html">Bootstrap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vue.html">Vue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particlejs.html">Particle JS API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Google Sheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vue.html">Vue</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bootstrap.html">Bootstrap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software.html">Device code</a></li>
 </ul>
 
             
@@ -155,6 +156,34 @@
   <div class="section" id="google-sheets">
 <h1>Google Sheets<a class="headerlink" href="#google-sheets" title="Permalink to this headline">¶</a></h1>
 <p>you can poll a variable and store the results</p>
+<p>Google Sheets. Tools &gt; Script editor, new, paste</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">collectData</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kd">var</span>  <span class="nx">sheet</span> <span class="o">=</span> <span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getActiveSheet</span><span class="p">();</span>
+
+    <span class="kd">var</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">UrlFetchApp</span><span class="p">.</span><span class="nx">fetch</span><span class="p">(</span><span class="s2">&quot;https://api.particle.io/v1/devices/&lt;device_id&gt;/JSON_status?access_token=&lt;auth_token&gt;&quot;</span><span class="p">);</span>
+
+    <span class="k">try</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">getContentText</span><span class="p">());</span> <span class="c1">// parse the JSON the Particle API created</span>
+        <span class="kd">var</span> <span class="nx">JSON_status</span> <span class="o">=</span> <span class="nx">unescape</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">result</span><span class="p">);</span> <span class="c1">// unescape before your parse as JSON</span>
+
+        <span class="k">try</span>
+        <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">JSON_status</span><span class="p">);</span> <span class="c1">// parse the JSON you created</span>
+            <span class="kd">var</span> <span class="nx">datum</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span> <span class="c1">// time stamps are always good when taking readings</span>
+            <span class="nx">sheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="nx">datum</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Strength</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Quality</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">FreeMem</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Temp1</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Temp2</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Humi</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Dew</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">DewAlert</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Light</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Dust</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">CO2</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">TSTATon</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">MOV1</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">MOV1light</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">MOV2</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">MOV2light</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">BEAMalert</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">BEAMlight</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">SUNLight</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Night</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Bed</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">R</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">G</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">B</span><span class="p">]);</span> <span class="c1">// append the specified data to the sheet</span>
+        <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Unable to do second parse&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Unable to returned JSON&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div>
 
 
@@ -165,7 +194,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="vue.html" class="btn btn-neutral float-right" title="Vue" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="software.html" class="btn btn-neutral float-right" title="Device code" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="particlejs.html" class="btn btn-neutral float-left" title="Particle JS API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

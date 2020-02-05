@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Google Sheets" href="sheets.html" />
-    <link rel="prev" title="Communication" href="communication.html" /> 
+    <link rel="prev" title="BootstrapVue" href="bootstrapvue.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -84,10 +84,10 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Particle Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="communication.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bootstrapvue.html">BootstrapVue</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Particle JS API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sheets.html">Google Sheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vue.html">Vue</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bootstrap.html">Bootstrap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software.html">Device code</a></li>
 </ul>
 
             
@@ -155,7 +155,13 @@
   <div class="section" id="particle-js-api">
 <h1>Particle JS API<a class="headerlink" href="#particle-js-api" title="Permalink to this headline">¶</a></h1>
 <p>Everything returns a <a class="reference external" href="https://promisesaplus.com">promise</a> these examples are using .catch and arrow functions.</p>
-<p>example <a class="reference external" href="https://docs.particle.io/reference/SDKs/javascript/#login">login</a></p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/particle-api-js@8/dist/particle.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="kd">var</span> <span class="nx">particle</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Particle</span><span class="p">();</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>then you can call particle.method() for example login <a class="reference external" href="https://docs.particle.io/reference/SDKs/javascript/#login">login</a></p>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">particle</span><span class="p">.</span><span class="nx">login</span><span class="p">({</span><span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;email@example.com&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;pass&#39;</span><span class="p">})</span>
     <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;API call completed on promise resolve: &#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">access_token</span><span class="p">);</span>
@@ -166,8 +172,8 @@
 <span class="p">);</span>
 </pre></div>
 </div>
-<p>login</p>
-<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">particleLogin</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<p>Organizing as a bootstrap-vue method login, the data remembers the auth_token in a cookie for future visits</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">particleLogin</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">particle</span><span class="p">.</span><span class="nx">login</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">password</span><span class="p">,</span> <span class="nx">expires_in</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">loginExpirySeconds</span> <span class="p">})</span>
         <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">auth_token</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">access_token</span><span class="p">;</span>
@@ -194,7 +200,7 @@
         <a href="sheets.html" class="btn btn-neutral float-right" title="Google Sheets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="communication.html" class="btn btn-neutral float-left" title="Communication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="bootstrapvue.html" class="btn btn-neutral float-left" title="BootstrapVue" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

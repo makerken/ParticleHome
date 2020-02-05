@@ -3,7 +3,14 @@ Particle JS API
 
 Everything returns a `promise <https://promisesaplus.com>`_ these examples are using .catch and arrow functions.
 
-example `login <https://docs.particle.io/reference/SDKs/javascript/#login>`_ ::
+.. code-block:: html
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/particle-api-js@8/dist/particle.min.js"></script>
+    <script>
+        var particle = new Particle();
+    </script>
+
+then you can call particle.method() for example login `login <https://docs.particle.io/reference/SDKs/javascript/#login>`_ ::
 
     particle.login({username: 'email@example.com', password: 'pass'})
         .then((data) => {
@@ -14,9 +21,9 @@ example `login <https://docs.particle.io/reference/SDKs/javascript/#login>`_ ::
         }
     );
 
-login ::
+Organizing as a bootstrap-vue method login, the data remembers the auth_token in a cookie for future visits ::
 
-    particleLogin: function() {
+    particleLogin() {
         particle.login({ username: this.email, password: this.password, expires_in: this.loginExpirySeconds })
             .then((data) => {
                 this.auth_token = data.body.access_token;

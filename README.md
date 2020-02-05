@@ -1,8 +1,8 @@
 # ParticleHome
 Monitoring and controlling Particle devices
 
-Device functions and code  
+[Documentation Home](https://particlehome.readthedocs.io/) 
 
-Communication
+A framework for making a single page application to get sensor data and control Particle microcontrollers using the Particle cloud.
 
-Design 
+Download a framework .html file and open it on your computer to run.

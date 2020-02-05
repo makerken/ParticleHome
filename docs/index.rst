@@ -8,15 +8,15 @@ Welcome to ParticleHome's documentation!
 
    overview
    communication
+   bootstrapvue
    particlejs
    sheets
-   vue
-   bootstrap
+   software
 
 
-Indices and tables
-==================
+.. Indices and tables
+.. ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`

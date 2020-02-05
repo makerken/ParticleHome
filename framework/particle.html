@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"></script>
+        <script src="https://unpkg.com/vue@latest/dist/vue.js"></script>
+        <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+        <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/particle-api-js@8/dist/particle.min.js"></script>
+
+        <title>Particle & bootstrap-vue</title>
+    </head>
+
+    <body>
+        <div id="app">
+            <b-container>
+
+                <b-modal id="auth-modal" title="Particle Login" ok-only no-close-on-esc 
+                    no-close-on-backdrop hide-header-close ok-title="Login" @ok="particleLogin">
+                    <b-form>
+                        <b-form-input type="email" v-model="user.email" placeholder="Email"></b-form-input>
+                        <b-form-input type="password" v-model="user.password" class="form-control mt-3" placeholder="Password"></b-form-input>
+                        <b-form-invalid-feedback :state="user.valid"> {{ user.validationText }} </b-form-invalid-feedback>
+                    </b-form>
+                </b-modal>
+
+                <div v-for="device in devices" :key="device.id">
+                    <h5 class="pt-2">{{ device.name }} </h5>
+                    <ul>
+                        <li v-for="(value, name) in device">{{ name }} : {{ value }}</li>
+                    </ul>
+                </div>
+
+            </b-container>
+        </div>
+    </body>
+
+    <script>
+
+        var particle = new Particle();
+
+        window.app = new Vue({
+            el: '#app',
+            data: {
+                user: {
+                    email: '',
+                    password: '',
+                    cookieExpirySeconds: 1*24*60*60,
+                    valid: true,
+                    validationText: 'required',
+                },
+                auth_token: '',
+                devices: [],
+            },
+            created: function() {
+                this.queryCookie();
+                if( this.auth_token ) {
+                    this.particleListDeviceDetails();
+                }
+            },
+            methods: {
+                /*** Particle API ***/
+                particleLogin( loginModal ) {
+                    loginModal.preventDefault();
+                    if( this.user.email | this.password == '' ) {
+                        this.user.validationText = "required";
+                        this.user.valid = false;
+                    }
+                    particle.login({ username: this.user.email, password: this.user.password, tokenDuration: this.user.cookieExpirySeconds })
+                    .then( (data) => {
+                        this.auth_token = data.body.access_token;
+                        this.createCookie();
+                        this.particleListDeviceDetails();
+                    })
+                    .catch((error) => {
+                        if( /invalid/.test(error) ){
+                            this.user.validationText = "invalid login";
+                            this.user.valid = false;
+                        };
+                    });
+                    // TODO enter key submit validation modal
+                    // TODO test two-factor login
+                    setTimeout( () => this.user.password = '', 500 );
+                },
+                particleListDeviceDetails() {
+                    particle.listDevices({ auth: this.auth_token })
+                    .then((devices) => {
+                        devices.body.forEach( device => {
+                            particle.getDevice({ deviceId: device.id, auth: this.auth_token })
+                            .then((data) => {
+                                this.devices.push( data.body );
+                            })
+                            .catch((error) => this.errorParse(error));
+                        });
+                    })
+                    .catch((error) => this.errorParse(error));
+                },
+                particleGetVariable( num, variable ) {
+                    particle.getVariable({ deviceId: this.device[num].id, name: variable, auth: this.auth_token })
+                    .then((data) => {
+                        var obj = JSON.parse(data.body.result);
+                        if( this.devices[num].s.length == 0 ) {
+                            this.devices[num].s.push( obj );
+                        } else {
+                            for( key in obj ) {
+                                this.devices[num].s[0][key] = obj[key];
+                            };
+                        }
+                    })
+                    .catch((error) => this.errorParse(error));
+                },
+                particleEventStream() {
+                    particle.getEventStream({ deviceId: 'mine', auth: this.auth_token })
+                    .then((stream) => {
+                        stream.on('event', function(data) {
+                            console.log("Event: ", data);
+                            // match data.coreid = device.id
+                            // TODO test subscribing to multiple or specific device affects speed
+                        });
+                    })
+                    .catch((error) => this.errorParse(error));
+                },
+                errorParse(error) {
+                    console.log('error', error);
+                    if( /token/.test(error) ){
+                        this.forgetCookie();
+                    };
+                },
+
+                /*** cookie management ***/
+                queryCookie() {
+                    var authCookie = document.cookie.split(';');
+                    if ( authCookie == '' ) {
+                        this.$nextTick(() => {
+                            this.$bvModal.show('auth-modal');
+                        });
+                    } else {
+                        this.auth_token = authCookie[0].substring("auth_token=".length);
+                        if( this.auth_token.length < 30 ) {
+                            this.forgetCookie();
+                        }
+                    }
+                },
+                createCookie() {
+                    var expires = new Date();
+                    expires.setTime( expires.getTime() + (this.user.cookieExpirySeconds*1000) );
+                    expires = "; expires=" + expires.toUTCString();
+                    document.cookie = "auth_token=" + this.auth_token + expires + "; path=/";
+                    this.$nextTick(() => {
+                        this.$bvModal.hide('auth-modal');
+                    });
+                },
+                forgetCookie() {
+                    document.cookie = "auth_token=; Max-Age=-99999999; path=/";
+                    this.auth_token = '';
+                    this.$nextTick(() => {
+                        this.$bvModal.show('auth-modal');
+                        this.user.valid = false;
+                        this.user.validationText = "expired";
+                    });
+                },
+            }
+        })
+
+    </script>
+
+</html>

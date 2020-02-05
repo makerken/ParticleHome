@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"></script>
+        <script src="https://unpkg.com/vue@latest/dist/vue.js"></script>
+        <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+        <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+        <title>BootstrapVue</title>
+    </head>
+
+    <body>
+        <div id="app">
+            <b-container>
+
+                <h1>Particle Home</h1>
+                <p class="text-monospace">Vue v-for used to iterate over an array of rooms</p>
+                <p v-for="room in rooms">
+                    <b-button>{{ room.name }}</b-button>
+                    {{ room.temperature }}
+                </p>
+                <b-button variant="danger" @click="turnOnHeat">Heat!</b-button>
+                <b-button variant="primary" @click="turnOnCool">Cool!</b-button>
+                <b-button variant="dark" @click="stop">Stop</b-button>
+
+            </b-container>
+        </div>
+    </body>
+
+    <script>
+
+        window.app = new Vue({
+            el: '#app',
+            data: {
+                rooms: [
+                    { name: "room 1", temperature: 17.3 },
+                    { name: "room 2", temperature: 20.4 },
+                    { name: "room 3", temperature: 18.4 },
+                    { name: "room 4", temperature: 18.1 },
+                ],
+                timer: '',
+            },
+            created: function() {
+                this.rooms[1].temperature = 14.4;
+            },
+            methods: {
+                // functions
+                turnOnHeat() {
+                    window.clearInterval( this.timer );
+                    this.timer = window.setInterval(() => {
+                        this.rooms.forEach(e => {
+                            e.temperature = Math.trunc( e.temperature * 10 + 1 ) / 10;
+                        });
+                    }, 500);
+                },
+                turnOnCool() {
+                    window.clearInterval( this.timer );
+                    this.timer = window.setInterval(() => {
+                        this.rooms.forEach(e => {
+                            e.temperature = Math.trunc( e.temperature * 10 - 1 ) / 10;
+                        });
+                    }, 500);
+                },
+                stop() {
+                    window.clearInterval( this.timer );
+                }
+            }
+        })
+
+    </script>
+
+</html>

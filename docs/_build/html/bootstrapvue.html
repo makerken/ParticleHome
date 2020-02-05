@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Bootstrap &mdash; ParticleHome 0.0.1 documentation</title>
+  <title>BootstrapVue &mdash; ParticleHome 0.0.1 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Particle JS API" href="particlejs.html" />
-    <link rel="prev" title="Vue" href="vue.html" /> 
+    <link rel="prev" title="Communication" href="communication.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -84,10 +84,10 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Particle Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="communication.html">Communication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sheets.html">Google Sheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vue.html">Vue</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Bootstrap</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BootstrapVue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particlejs.html">Particle JS API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sheets.html">Google Sheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software.html">Device code</a></li>
 </ul>
 
             
@@ -133,13 +133,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Bootstrap</li>
+      <li>BootstrapVue</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/bootstrap.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/bootstrapvue.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -152,9 +152,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="bootstrap">
-<h1>Bootstrap<a class="headerlink" href="#bootstrap" title="Permalink to this headline">¶</a></h1>
-<p>Nice standard styling. Summarizing their <a class="reference external" href="https://getbootstrap.com">getting started</a> page with a only css styling</p>
+  <div class="section" id="bootstrapvue">
+<h1>BootstrapVue<a class="headerlink" href="#bootstrapvue" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><a class="reference external" href="https://bootstrap-vue.js.org/docs/reference/starter-templates/">https://bootstrap-vue.js.org/docs/reference/starter-templates/</a></div></blockquote>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!doctype html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -177,7 +178,54 @@
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </pre></div>
 </div>
-<p><a class="reference external" href="https://getbootstrap.com/docs/4.4/components/buttons/">Buttons</a> and responsive <a class="reference external" href="https://getbootstrap.com/docs/4.4/layout/grid/">layout</a> are most used currently</p>
+<p>Five parts to use Vue</p>
+<ol class="arabic simple">
+<li>include</li>
+<li>declare an id in the body</li>
+<li>use that id to start vue</li>
+<li>data in named in Vue</li>
+<li>link to body using {{ data }}</li>
+</ol>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!doctype html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;</span><span class="p">&gt;</span>
+
+        <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css&quot;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&quot;sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh&quot;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&quot;anonymous&quot;</span><span class="p">&gt;</span>
+
+        <span class="c">&lt;!-- #1 Production Vue --&gt;</span>
+        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/vue&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+        <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Bootstrap<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+        <span class="c">&lt;!-- #2 --&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;app&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Particle Home<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+                <span class="c">&lt;!-- #5 --&gt;</span>
+                {{ temperature }}
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+        <span class="c1">// #3</span>
+        <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+            <span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;#app&#39;</span><span class="p">,</span>
+            <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+                <span class="c1">// #4</span>
+                <span class="nx">temperature</span><span class="o">:</span> <span class="mf">19.5</span>
+            <span class="p">}</span>
+        <span class="p">})</span>
+    <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>add methods, router, html templates, and v-for</p>
 </div>
 
 
@@ -191,7 +239,7 @@
         <a href="particlejs.html" class="btn btn-neutral float-right" title="Particle JS API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="vue.html" class="btn btn-neutral float-left" title="Vue" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="communication.html" class="btn btn-neutral float-left" title="Communication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
